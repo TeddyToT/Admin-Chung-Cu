@@ -1,19 +1,19 @@
-Here are the steps you need to follow to install the dependencies.
+Cách chạy  :
 
-1. Download and extract the template from Next.js Templates.
+1. Clone Repository này.
 
-2. After that **cd** into the template directory then run this command to install all the dependencies
+2. Sau đó cd vào project và mở Terminal chạy lệnh
 
 ```
 npm install
 ```
-or
+hoặc
 
 ```
 yarn install
 ```
 
-3. Now run this command to start the developement server
+3. Sau cùng chạy lệnh sau để chạy project
 
 ```
 npm run dev
