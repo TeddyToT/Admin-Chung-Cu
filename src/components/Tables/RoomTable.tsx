@@ -28,14 +28,20 @@ const RoomTable = ({ filterStatus, setFilterStatus }) => {
   
     // Lọc theo input tìm kiếm
     const searchQuery = searchInput.trim().toLowerCase();
+    const searchQuery2 = searchInput2.trim().toLowerCase();
     const temp = filtered.filter(
       (room) =>
-        room.roomNumber.toString().includes(searchQuery) ||
-        room.floor.toString().includes(searchQuery)
+        room.roomNumber.toString().includes(searchQuery)
+        
+    );
+    const temp2 = temp.filter(
+      (room) =>
+        room.floor.toString().includes(searchQuery2)
+        
     );
   
-    setSearchrooms(temp);
-  }, [filterStatus, rooms, searchInput]);
+    setSearchrooms(temp2);
+  }, [filterStatus, rooms, searchInput, searchInput2]);
   
 
   const handleDeleteProduct = (productId: string) => {
@@ -130,15 +136,12 @@ const RoomTable = ({ filterStatus, setFilterStatus }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-8 border-t border-stroke px-4 py-4.5 dark:border-strokedark md:px-6 2xl:px-7.5">
+      <div className="grid grid-cols-7 border-t border-stroke px-4 py-4.5 dark:border-strokedark md:px-6 2xl:px-7.5">
         <div className="col-span-3 flex items-center">
           <p className="font-bold">Tên sản phẩm</p>
         </div>
         <div className="col-span-1 hidden items-center sm:flex">
           <p className="font-bold">Trạng thái</p>
-        </div>
-        <div className="col-span-1 hidden items-center sm:flex">
-          <p className="font-bold">Mô tả</p>
         </div>
         <div className="col-span-2 flex items-center ">
           <p className="w-full text-center font-bold">Giá/Tháng</p>
@@ -152,8 +155,8 @@ const RoomTable = ({ filterStatus, setFilterStatus }) => {
         <div
           className={
             key % 2 != 0
-              ? "grid grid-cols-8 bg-gray-100 px-4  py-4.5 dark:bg-gray-800 md:px-6 2xl:px-7.5"
-              : "grid grid-cols-8 px-4 py-4.5 dark:border-strokedark md:px-6 2xl:px-7.5"
+              ? "grid grid-cols-7 bg-gray-100 px-4  py-4.5 dark:bg-gray-800 md:px-6 2xl:px-7.5"
+              : "grid grid-cols-7 px-4 py-4.5 dark:border-strokedark md:px-6 2xl:px-7.5"
           }
           key={product._id}
         >
@@ -177,11 +180,6 @@ const RoomTable = ({ filterStatus, setFilterStatus }) => {
                 Đã cho thuê
               </p>
             )}
-          </div>
-          <div className="col-span-1 hidden items-center sm:flex">
-            <p className="text-sm capitalize text-black dark:text-white">
-              {product.description}
-            </p>
           </div>
 
           <div className="col-span-2 flex flex-col items-center gap-2">

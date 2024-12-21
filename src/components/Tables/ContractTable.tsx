@@ -9,14 +9,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
-const ContractTable = ({ filterStatus, setFilterStatus }) => {
+const ContractTable = ({ filterStatus, setFilterStatus, filterEndDay }) => {
   const { orders, fetchOrders }: any = useContext(Contexts);
   // console.log(orders);
   const [searchInput, setSearchInput] = useState("");
   const [searchOrders, setSearchOrders] = useState([]);
+  const [filterOrders, setFilterOrders] = useState(orders)
 
+
+
+  useEffect(()=>{
+    if (filterEndDay){
+      
+        const today = new Date();
+        const filterd = orders.filter((order) =>{
+          const endDay = new Date(order.endDay)
+          const diff = endDay - today;
+      
+          const diffDays = diff /(60 * 60 * 24 * 1000)
+    
+          return diffDays >= 0 && diffDays <= 7
+        })
+        setFilterOrders(filterd)
+      console.log(filterd);
+    }
+    else{
+      setFilterOrders(orders)
+    }
+  },[filterEndDay, orders])
+
+  
   useEffect(() => {
-    let filtered = orders;
+    let filtered = filterOrders;
 
     if (filterStatus !== "all") {
       filtered = orders.filter(
@@ -30,7 +54,7 @@ const ContractTable = ({ filterStatus, setFilterStatus }) => {
     );
 
     setSearchOrders(temp);
-  }, [searchInput, filterStatus, orders]);
+  }, [searchInput, filterStatus, orders, filterOrders]);
 
   const itemsPerPage = 8; // Số mục mỗi trang
   const [currentPage, setCurrentPage] = useState(1);
@@ -96,16 +120,20 @@ const ContractTable = ({ filterStatus, setFilterStatus }) => {
 
   const handleDeleteOrder = (orderId: string) => {
     axios
-      .delete(`http://localhost:8081/v1/api/user/orders/${orderId}`)
+      .delete(`http://localhost:8081/v1/api/deleteContract`,{
+        data: {
+          id: orderId
+        }
+      })
       .then((response) => {
         if (response.data.success == true) {
-          toast.success("Xóa voucher thành công", {
+          toast.success("Xóa hợp đồng thành công", {
             position: "top-right",
             autoClose: 2000,
           });
           fetchOrders();
         } else {
-          toast.error("Xóa voucher thất bại", {
+          toast.error("Xóa hợp đồng thất bại", {
             position: "top-right",
             autoClose: 2000,
           });

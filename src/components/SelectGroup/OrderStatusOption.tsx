@@ -42,6 +42,7 @@ const OrderStatusOption: React.FC<OrderStatusOptionProps> = ({
           <option value="Pending">Chờ xác nhận</option>
           <option value="Done">Xác nhận hợp đồng</option>
           <option value="Cancel">Bác bỏ</option>
+          <option value="Expired">Hết hạn</option>
         </select>
       </div>
       {isDisabled && (

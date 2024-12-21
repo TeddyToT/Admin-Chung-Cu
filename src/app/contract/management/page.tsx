@@ -11,11 +11,28 @@ const TablesPage = () => {
   const toggleStatus = (status: string) => {
     setFilterStatus((prevStatus) => (prevStatus === status ? "all" : status));
   };
+  const [filter, setFilter] = useState(false)
+  const handleClick = ()=>{
+    setFilter((prev)=> !prev)
+
+  }
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Quản lý đơn hàng" />
 
       <div className="flex items-center justify-end gap-5 rounded-md p-2 mb-4 dark:bg-meta-4">
+
+      <button
+          onClick={handleClick}
+          className={`rounded px-3  py-1 font-medium text-red-500  shadow-card 
+        shadow-gray-400 hover:bg-slate-700 hover:text-white hover:shadow-card 
+        dark:bg-cyan-950  dark:hover:bg-[#3d50e0] dark:hover:text-white ${filter?"bg-gray-600 text-red-500":"text-red-500"}
+`} 
+        >
+          Đơn sắp hết hạn
+        </button>
+
+
         <button
           onClick={() => toggleStatus("Pending")}
           className={`rounded px-3  py-1 font-medium text-warning  shadow-card 
@@ -59,6 +76,7 @@ const TablesPage = () => {
         <ContractTable
           filterStatus={filterStatus}
           setFilterStatus={setFilterStatus}
+          filterEndDay={filter}
         />
       </div>
     </DefaultLayout>

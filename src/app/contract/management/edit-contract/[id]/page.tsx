@@ -33,14 +33,14 @@ const EditOrder = ({ params }: { params: { id: string } }) => {
     };
   const { fetchOrders }: any = useContext(Contexts);
   const router = useRouter();
-  function convertDateFormat(date: string): string {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
-  }
-  function convertToDate(date: string): Date {
-    const [day, month, year] = date.split("/");
-    return new Date(`${year}-${month}-${day}`);
-  }
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const time = date.toTimeString().split(" ")[0];
+    return `${day}/${month}/${year} ${time}`;
+  };
 
   useEffect(() => {
     axios
@@ -139,14 +139,18 @@ const EditOrder = ({ params }: { params: { id: string } }) => {
                         >
                           <div className="flex flex-col">
                           <div className="flex basis-3/4 flex-row items-center gap-6">
-                            {room.images && (
-                              <Image
+                            {room.images?(<Image
                                 src={room.images[0]}
                                 alt=""
                                 width={100}
                                 height={100}
-                              />
-                            )}
+                              />):(
+                                <div>
+                                  </div>
+
+                            ) }
+                              
+                            
                             
                             <div className="flex flex-col text-sm w-full gap-2">
                             <p className="text-ellipsis">Phòng số: {room.roomNumber} - Tầng: {room.floor}</p>
@@ -184,7 +188,7 @@ const EditOrder = ({ params }: { params: { id: string } }) => {
                     <div className="flex w-1/2 place-items-center justify-end ">
                       
                         <p className="text-gray-500 dark:text-white">
-                          {(contract.month * room.price).toLocaleString()} VNĐ
+                          {(Math.floor(contract?.month / 2) * room.price).toLocaleString()} VNĐ
                         </p>  
                     </div>
                   </div>
@@ -262,8 +266,26 @@ const EditOrder = ({ params }: { params: { id: string } }) => {
                   Trạng thái hợp đồng
                 </h3>
               </div>
-            
+
               <div className="p-7">
+                <div className="mb-5.5 w-full">
+                <label className=" mb-3 block text-sm font-medium text-black dark:text-white">
+                    Ngày bắt đầu
+                    </label>
+                    <p className="capitalize w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                    {formatDate(contract.startDay)}
+                    </p>  
+                </div >
+
+                <div className="mb-5.5 w-full">
+                <label className=" mb-3 block text-sm font-medium text-black dark:text-white">
+                    Ngày kết thúc
+                    </label>
+                    <p className="capitalize w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
+                    {formatDate(contract.endDay)}
+                    </p>  
+                </div >
+
 
                   <div className="mb-5.5 w-full">
                     <label className=" mb-3 block text-sm font-medium text-black dark:text-white">

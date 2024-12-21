@@ -88,20 +88,7 @@ const EditProduct = ({ params }: { params: { id: string } }) => {
       })
       return;
     }
-    if (!des) {
-      toast.warning("Yêu cầu nhập mô tả phòng", {
-        position: "top-right",
-        autoClose: 1500
-      })
-      return;
-    }
-    if (des.length > 40) {
-      toast.warning("Yêu cầu nhập mô tả phòng dưới 40 kí tự", {
-        position: "top-right",
-        autoClose: 1500
-      })
-      return;
-    }
+    
   
     axios
       .put("http://localhost:8081/v1/api/updateRoom", {
@@ -110,9 +97,8 @@ const EditProduct = ({ params }: { params: { id: string } }) => {
         price: price.toString(),
         bedRoom: bedRoom.toString(),
         restRoom: restRoom.toString(),
-        description: des,
         isAvailable: status,
-
+        
       })
       .then((res) => {
         if (res.data.success == false)
@@ -174,19 +160,7 @@ const EditProduct = ({ params }: { params: { id: string } }) => {
                   Phòng số {roomNumber} - Tầng {floor}
                 </p>
               </div>
-              <div className="mb-4.5">
-                <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                  Mô tả
-                </label>
-                <input
-                  type="text"
-                  value={des}
-                  disabled={!currentStatus} 
-                  onChange={(e) => setDes(e.target.value)}
-                  placeholder="Enter product description"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                />
-              </div>
+              
               <div className="mb-4.5">
                 <label className="mb-3 block text-sm font-medium text-black dark:text-white">
                   Số giường
